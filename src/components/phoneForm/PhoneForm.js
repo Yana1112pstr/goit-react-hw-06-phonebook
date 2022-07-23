@@ -1,13 +1,16 @@
 import MyButton from "components/UI/button/MyButton";
 import MyInput from "components/UI/input/MyInput";
 import React, { useState } from "react";
-import {  useDispatch } from "react-redux";
+import {  useSelector, useDispatch } from "react-redux";
 import { addContacts } from "redux/contacts/slice";
 import s from "./PhoneForm.module.css";
 import toast from "react-hot-toast";
+import { getContacts } from "redux/contacts/selectors";
 
 const PhoneForm = () => {
   const [contact, setContact] = useState({ name: "", number: "" });
+
+  const contacts = useSelector(getContacts);
 
   const dispatch = useDispatch();
 
@@ -17,10 +20,9 @@ const PhoneForm = () => {
       ...contact,
       id: Date.now(),
     };
+    contacts.some(contact => contact.name === newContact.name) ? (toast.error(`your phonebook has contact ${newContact.name}`)) :
     dispatch(addContacts(newContact))
-    // console.log(newContact)
-    setContact({ name: "", number: "" });
-    toast.success("Created new contact!");
+    setContact({ name: "", number: "" })
   };
 
   return (

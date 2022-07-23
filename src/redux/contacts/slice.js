@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 export const myPhonebookSlice = createSlice({
     name: "phonebook",
@@ -14,11 +15,13 @@ export const myPhonebookSlice = createSlice({
     reducers: {
         addContacts(state, action) {
             state.contacts.push(action.payload);
+            toast.success("Created new contact!")
         },
         deleteContacts(state, action) {
             state.contacts = state.contacts.filter(
                 contact => contact.id !== action.payload
             );
+            toast.success("Deleted contact!")
         },
         addFilter(state, action) {
             state.filter = action.payload;
